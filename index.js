@@ -1,0 +1,413 @@
+// My web app`s Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyAsn_dWrZNB1bRVul_XkgRWFgjEIusPKl8",
+    authDomain: "form-8954e.firebaseapp.com",
+    databaseURL: "https://form-8954e.firebaseio.com",
+    projectId: "form-8954e",
+    storageBucket: "form-8954e.appspot.com",
+    messagingSenderId: "347245119398",
+    appId: "1:347245119398:web:21766531a808a3d8ad7167",
+    measurementId: "G-C2LWPVJQFG"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// My alert
+function CustomAlert(){
+    this.render = function(dialog){
+        var dialogoverlay = document.getElementById('dialogoverlay');
+        var dialogbox = document.getElementById('dialogbox');
+        dialogoverlay.style.display = "block";
+        dialogbox.style.display = "block";
+        document.getElementById('dialogboxhead').innerHTML = "Today's program: <span id=\"pipe\" class=\"fa fa-check\"></span><\span>";
+        document.getElementById('dialogboxbody').innerHTML = "<span>" + dialog + "</span>";
+        document.getElementById('dialogboxfoot').innerHTML = '<button id="close" onclick="Alert.ok()">OK</button>';
+    }
+	this.ok = function(){
+		document.getElementById('dialogbox').style.display = "none";
+		document.getElementById('dialogoverlay').style.display = "none";
+	}
+}
+var Alert = new CustomAlert();
+
+function add_todo(){
+    //console.log("add_todo");
+    input_box = document.getElementById("input_box");
+    var input_date = document.getElementById("input_date");
+
+    if (input_box.value.length != 0 && input_date.value.length != 0){ // not empty
+        var key = firebase.database().ref().child("unfinished_ToDo").push().key;
+        //console.log(key);
+        var todo = {
+            title: input_box.value,
+            date: input_date.value.replace("T", " "),
+            key: key
+        };
+
+        var updates = {};
+        updates["/unfinished_ToDo/" + key] = todo;
+        firebase.database().ref().update(updates); 
+        create_unfinished_ToDo();
+        var a = document.getElementById("input_box");
+        a.value = a.defaultValue;
+        var b = document.getElementById("input_date");
+        b.value = b.defaultValue;
+    }
+    else{
+        alert("Incorrect data!");
+    }
+}
+
+// Date
+var today = new Date();
+//console.log(today);
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+var today0 = yyyy + '-' + mm + '-' + dd;
+var hour = today.getHours()
+var minute = today.getMinutes()
+today = yyyy + '-' + mm + '-' + dd + ' ' + hour + ':' + minute;
+//console.log(today);
+function create_unfinished_ToDo(){
+    unfinished_ToDo_container = document.getElementsByClassName("container")[0];
+    expired_ToDo_container = document.getElementsByClassName("container")[2];
+    unfinished_ToDo_container.innerHTML = "";
+    expired_ToDo_container.innerHTML = "";
+
+    todo_arrayf = [];
+    firebase.database().ref("unfinished_ToDo").once('value', function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+            //var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+            //console.log(childKey+": "+childData);
+            todo_arrayf.push(Object.values(childData));
+        });
+        //console.log(todo_arrayf.length);
+        assigment = "";
+        for (var i, i = 0; i < todo_arrayf.length; ++i){
+            //console.log(todo_array[i]);
+            todo_date = todo_arrayf[i][0];
+            todo_key = todo_arrayf[i][1];
+            todo_title = todo_arrayf[i][2];
+
+            mytodo_date = todo_date.substring(0, todo_date.length - 6);
+
+            if (mytodo_date == today0){
+                //console.log(todo_title);
+                assigment += todo_title;
+                assigment += ", ";
+            }
+
+            if (todo_date >= today){
+                todo_container = document.createElement('div');
+                todo_container.setAttribute("class", "data_container");
+                todo_container.setAttribute("data-key", todo_key);
+    
+                // data
+                todo_data = document.createElement('div');
+                todo_data.setAttribute('id', 'data');
+    
+                title = document.createElement('p');
+                title.setAttribute('id', 'title');
+                title.setAttribute('contenteditable', false);
+                title.innerHTML = todo_title;
+    
+                date = document.createElement('p');
+                date.setAttribute('id', 'date');
+                date.setAttribute('contenteditable', false);
+                date.innerHTML = todo_date;
+    
+                // tools
+                todo_tool = document.createElement('div');
+                todo_tool.setAttribute('id', 'tool')
+    
+                todo_done_button = document.createElement('button');
+                todo_done_button.setAttribute('id', 'done_button');
+                todo_done_button.setAttribute('onclick', "todo_done(this.parentElement.parentElement, this.parentElement)");
+                fa_done = document.createElement('i');
+                fa_done.setAttribute('class', 'fa fa-plus');
+    
+                todo_edit_button = document.createElement('button');
+                todo_edit_button.setAttribute('id', 'edit_button');
+                todo_edit_button.setAttribute('onclick', "todo_edit(this.parentElement.parentElement, this)");
+                fa_edit = document.createElement('i');
+                fa_edit.setAttribute('class', 'fa fa-pencil');
+    
+                todo_delete_button = document.createElement('button');
+                todo_delete_button.setAttribute('id', 'delete_button');
+                todo_delete_button.setAttribute('onclick', "todo_delete(this.parentElement.parentElement, 0)");
+                fa_delete = document.createElement('i');
+                fa_delete.setAttribute('class', 'fa fa-trash');
+
+                // show 
+                unfinished_ToDo_container.append(todo_container);
+                todo_container.append(todo_data);
+                todo_data.append(title);
+                todo_data.append(date);
+    
+                todo_container.append(todo_tool);
+                todo_tool.append(todo_done_button);
+                todo_done_button.append(fa_done);
+                todo_tool.append(todo_edit_button);
+                todo_edit_button.append(fa_edit);
+                todo_tool.append(todo_delete_button);
+                todo_delete_button.append(fa_delete);
+            }
+            else{
+                todo_container = document.createElement('div');
+                todo_container.setAttribute("class", "data_container");
+                todo_container.setAttribute("data-key", todo_key);
+
+                // data
+                todo_data = document.createElement('div');
+                todo_data.setAttribute('id', 'data');
+
+                title = document.createElement('p');
+                title.setAttribute('id', 'title');
+                title.setAttribute('contenteditable', false);
+                title.innerHTML = todo_title;
+
+                date = document.createElement('p');
+                date.setAttribute('id', 'date');
+                date.setAttribute('contenteditable', false);
+                date.innerHTML = todo_date;
+
+                todo_tool = document.createElement('div');
+                todo_tool.setAttribute('id', 'tool')
+
+                todo_done_button = document.createElement('button');
+                todo_done_button.setAttribute('id', 'done_button');
+                todo_done_button.setAttribute('onclick', "todo_done(this.parentElement.parentElement, this.parentElement)");
+                fa_done = document.createElement('i');
+                fa_done.setAttribute('class', 'fa fa-plus');
+
+                todo_delete_button = document.createElement('button');
+                todo_delete_button.setAttribute('id', 'delete_button');
+                todo_delete_button.setAttribute('onclick', "todo_delete(this.parentElement.parentElement, 0)");
+                fa_delete = document.createElement('i');
+                fa_delete.setAttribute('class', 'fa fa-trash');
+
+                // show
+                expired_ToDo_container.append(todo_container);
+                todo_container.append(todo_data);
+                todo_data.append(title);
+                todo_data.append(date);
+                
+                todo_container.append(todo_tool);
+                todo_tool.append(todo_done_button);
+                todo_done_button.append(fa_done);
+                todo_tool.append(todo_delete_button);
+                todo_delete_button.append(fa_delete);
+            }
+        }
+        if (assigment != ""){
+            assigment = assigment.substring(0, assigment.length - 2);
+            
+            alert("Today's program: " + assigment);
+            //Alert.render(assigment)
+        }
+    });
+}
+
+function create_finished_ToDo(){
+    finished_ToDo_container = document.getElementsByClassName("container")[1];
+    expired_ToDo_container = document.getElementsByClassName("container")[2];
+    finished_ToDo_container.innerHTML = "";
+    expired_ToDo_container.innerHTML = "";
+
+    todo_array = [];
+    firebase.database().ref("finished_ToDo").once('value', function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+            //var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+            todo_array.push(Object.values(childData));
+        });
+        //console.log(todo_array.length);
+        for (var i, i = 0; i < todo_array.length; ++i){
+            //console.log(todo_array[i]);
+            todo_date = todo_array[i][0];
+            todo_key = todo_array[i][1];
+            todo_title = todo_array[i][2];
+
+            todo_container = document.createElement('div');
+            todo_container.setAttribute("class", "data_container");
+            todo_container.setAttribute("data-key", todo_key);
+
+            // data
+            todo_data = document.createElement('div');
+            todo_data.setAttribute('id', 'data');
+
+            title = document.createElement('p');
+            title.setAttribute('id', 'title');
+            title.setAttribute('contenteditable', false);
+            title.innerHTML = todo_title;
+
+            date = document.createElement('p');
+            date.setAttribute('id', 'date');
+            date.setAttribute('contenteditable', false);
+            date.innerHTML = todo_date;
+
+            // tools
+            todo_tool = document.createElement('div');
+            todo_tool.setAttribute('id', 'tool')
+
+            todo_minus_button = document.createElement('button');
+            todo_minus_button.setAttribute('id', 'minus_button');
+            todo_minus_button.setAttribute('onclick', "todo_minus(this.parentElement.parentElement, this.parentElement)");
+            fa_minus = document.createElement('i');
+            fa_minus.setAttribute('class', 'fa fa-minus');
+
+            todo_delete_button = document.createElement('button');
+            todo_delete_button.setAttribute('id', 'delete_button');
+            todo_delete_button.setAttribute('onclick', "todo_delete(this.parentElement.parentElement, 1)");
+            fa_delete = document.createElement('i');
+            fa_delete.setAttribute('class', 'fa fa-trash');
+
+            // show
+            finished_ToDo_container.append(todo_container);
+            todo_container.append(todo_data);
+            todo_data.append(title);
+            todo_data.append(date);
+
+            todo_container.append(todo_tool);
+            todo_tool.append(todo_minus_button);
+            todo_minus_button.append(fa_minus);
+            todo_tool.append(todo_delete_button);
+            todo_delete_button.append(fa_delete);
+        }
+    });
+}
+
+function todo_done(todo, todo_tool){
+    //console.log("todo_done");
+    finish_todo_container = document.getElementsByClassName("container")[1];
+    todo.removeChild(todo_tool);
+
+    finish_todo_container.append(todo);
+
+    var key = todo.getAttribute("data-key");
+    var todo_obj = {
+        title: todo.childNodes[0].childNodes[0].innerHTML,
+        date: todo.childNodes[0].childNodes[1].innerHTML,
+        key: key
+    };
+
+    var updates = {};
+    updates["/finished_ToDo/" + key] = todo_obj;
+    firebase.database().ref().update(updates); 
+
+    // delete our ToDo from unfinished
+    todo_delete(todo, 0);
+    create_finished_ToDo();
+    create_unfinished_ToDo();
+}
+
+function todo_minus(todo, todo_tool){
+    //console.log("todo_minus");
+    unfinish_todo_container = document.getElementsByClassName("container")[0];
+    todo.removeChild(todo_tool);
+
+    unfinish_todo_container.append(todo);
+
+    var key = todo.getAttribute("data-key");
+    var todo_obj = {
+        title: todo.childNodes[0].childNodes[0].innerHTML,
+        date: todo.childNodes[0].childNodes[1].innerHTML,
+        key: key
+    };
+
+    var updates = {};
+    updates["/unfinished_ToDo/" + key] = todo_obj;
+    firebase.database().ref().update(updates); 
+
+    // delete our ToDo from unfinished
+    todo_delete(todo, 1);
+    create_unfinished_ToDo();
+}
+
+function todo_edit(todo, edit_button){
+    //console.log("todo_edit");
+    /*edit_button.style.backgroundColor = "#ffed83" // yellow
+    edit_button.style.color = "#fff" // white*/
+    edit_button.setAttribute("id", "edit_button_editing");
+    edit_button.setAttribute("onclick", "finish_edit(this.parentElement.parentElement, this)");
+
+    title = todo.childNodes[0].childNodes[0];
+    title.setAttribute("contenteditable", true);
+
+    date = todo.childNodes[0].childNodes[1];
+    date.setAttribute("contenteditable", true);
+}
+
+function finish_edit(todo, edit_button){
+    /*edit_button.style.backgroundColor = "#fff" // white
+    edit_button.style.color = "#000" // black*/
+    edit_button.setAttribute("id", "edit_button");
+    edit_button.setAttribute("onclick", "todo_edit(this.parentElement.parentElement, this)");
+
+    title = todo.childNodes[0].childNodes[0];
+    title.setAttribute("contenteditable", false);
+
+    date = todo.childNodes[0].childNodes[1];
+    date.setAttribute("contenteditable", false);
+
+    // change in firebase to
+    var key = todo.getAttribute("data-key");
+    var todo_obj = {
+        title: todo.childNodes[0].childNodes[0].innerHTML,
+        date: todo.childNodes[0].childNodes[1].innerHTML,
+        key: key
+    };
+
+    var updates = {};
+    updates["/unfinished_ToDo/" + key] = todo_obj;
+    firebase.database().ref().update(updates);
+}
+
+function todo_delete(todo, where){
+    //console.log("todo_delete");
+    key = todo.getAttribute("data-key");
+    if (where == 0){
+        todo_to_remove = firebase.database().ref("unfinished_ToDo/" + key);
+    }
+    else{
+        todo_to_remove = firebase.database().ref("finished_ToDo/" + key);
+    }
+    console.log(where);
+    todo_to_remove.remove();
+
+    // remove from html view or whatever
+    todo.remove();
+}
+
+// Current time
+var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+function updateClock(){
+    var now = new Date();
+    var dname = now.getDay(), mo = now.getMonth(), dnum = now.getDate(), yr = now.getFullYear(), hou = now.getHours(), min = now.getMinutes(), sec = now.getSeconds(), pe = "AM";
+    if (hou >= 12){
+        pe = "PM";
+    }
+    if (hou == 0){
+        hou = 12;
+    }
+    if (hou > 12){
+        hou = hou - 12;
+    }
+    Number.prototype.pad = function(digits){
+        for (var i = this.toString(); i.length < digits; i = 0 + i);
+        return i;
+    }
+    var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+    for(var i = 0; i < ids.length; i++){
+        document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+    }
+}
+
+function initClock(){
+    updateClock();
+    window.setInterval("updateClock()", 1);
+}

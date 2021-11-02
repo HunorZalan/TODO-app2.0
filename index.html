@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Software rendszerek tervezése projekt">
+        <meta name="keywords" content="HTML, CSS, JavaScript">
+        <meta name="author" content="Nagy Hunor-Zalán">
+        <meta http-equiv="refresh" content="300">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title> To Do </title>
+
+        <link rel="icon" href="to-do-list.png" type="image/png"> <!--ToDo icon-->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--Used css file, icons-->
+        <link rel="stylesheet" href="index.css" type="text/css"> <!--My css file-->
+        <style type="text/css"> </style>
+
+        <script type="text/javascript"> </script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script> <!--Firebase-->
+        <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-database.js"></script> <!--Firebase-->
+        <script src="index.js"> </script> <!--My js file-->
+
+    </head>
+    <body onload="create_unfinished_ToDo(), create_finished_ToDo(), initClock()">
+        <header>
+        </header>
+
+        <main id="content_container">
+
+            <div id="to_do_list_header"> 
+                <!--Title-->
+                <p> To Do List </p> 
+                
+                <!--Digital clock-->
+                <div class="datetime">
+                    <div class="date">
+                        <span id="dayname">Day</span>,
+                        <span id="month">Month</span>
+                        <span id="daynum">00</span>,
+                        <span id="year">Year</span>
+                    </div>
+                    <div class="time">
+                        <span id="hour">00</span>:
+                        <span id="minutes">00</span>:
+                        <span id="seconds">00</span>
+                        <span id="period">AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--Add To Do-->
+            <div id="input_container">
+
+                <!--My Alert-->
+                <div id="dialogoverlay"></div>
+                <div id="dialogbox">
+                    <div>
+                        <div id="dialogboxhead"></div>
+                        <div id="dialogboxbody"></div>
+                        <div id="dialogboxfoot"></div>
+                    </div>
+                </div>
+
+                <input id="input_box" type="text" placeholder="Add A Goal">
+                <input id="input_date" type="datetime-local">
+                <button id="input_button" onclick="add_todo();"> Enter <i class="fa fa-arrow-circle-right"> </i> </button>
+            </div>
+
+            <!--To Do List-->
+            <p class="header">To Do</p>
+            <div class="container">
+                <div class=data_container>
+                    <div id="data">
+                        <p id="title" contenteditable="false">To Do 1</p>
+                        <p id="date" contenteditable="false">To Do 1</p>
+                    </div>
+                    <div id="tool">
+                        <button id="done_button" onclick="todo_done();">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button id="edit_button" onclick="todo_edit();">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button id="delete_button" onclick="todo_delete();">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--Finished To Do-->
+            <p class="header">Finished</p>
+            <div class="container">
+                <div class=data_container>
+                    <div id="data">
+                        <p id="title" contenteditable="false">Title 1</p>
+                        <p id="date" contenteditable="false">Date 1</p>
+                    </div>
+                    <div id="tool">
+                        <button id="delete_button" onclick="todo_delete();">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <button id="minus_button" onclick="todo_minus();">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--Expired To Do-->
+            <p class="header">Expired</p>
+            <div class="container">
+                <div class=data_container>
+                    <div id="data">
+                        <p id="title" contenteditable="false">To Do 1</p>
+                        <p id="date" contenteditable="false">To Do 1</p>
+                    </div>
+                    <div id="tool">
+                        <button id="delete_button" onclick="todo_delete();">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer id="foot">
+            <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script>, Software rendszerek tervezése</p>
+        </footer>
+
+    </body>
+</html>
