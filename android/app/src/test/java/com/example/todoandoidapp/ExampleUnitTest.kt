@@ -1,4 +1,4 @@
-package com.example.todoandroidapp
+package com.example.todoandoidapp
 
 import org.junit.Test
 
