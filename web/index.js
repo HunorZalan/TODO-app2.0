@@ -1,13 +1,13 @@
 // My web app`s Firebase configuration
 var firebaseConfig = {
-    apiKey: "AIzaSyAsn_dWrZNB1bRVul_XkgRWFgjEIusPKl8",
-    authDomain: "form-8954e.firebaseapp.com",
-    databaseURL: "https://form-8954e.firebaseio.com",
-    projectId: "form-8954e",
-    storageBucket: "form-8954e.appspot.com",
-    messagingSenderId: "347245119398",
-    appId: "1:347245119398:web:21766531a808a3d8ad7167",
-    measurementId: "G-C2LWPVJQFG"
+    apiKey: "AIzaSyDRs4q6iC5ZC-2ByTcM-TaAmT_iEixYcKA",
+    authDomain: "database-651ea.firebaseapp.com",
+    databaseURL: "https://database-651ea.firebaseio.com",
+    projectId: "database-651ea",
+    storageBucket: "database-651ea.appspot.com",
+    messagingSenderId: "302308004819",
+    appId: "1:302308004819:web:eae8b75637681777da1526",
+    measurementId: "G-7HZR15SRXJ"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -39,9 +39,9 @@ function add_todo(){
         var key = firebase.database().ref().child("unfinished_ToDo").push().key;
         //console.log(key);
         var todo = {
-            title: input_box.value,
-            date: input_date.value.replace("T", " "),
-            key: key
+            Title: input_box.value,
+            Date: input_date.value.replace("T", " "),
+            Key: key
         };
 
         var updates = {};
@@ -336,8 +336,8 @@ function todo_edit(todo, edit_button){
     title = todo.childNodes[0].childNodes[0];
     title.setAttribute("contenteditable", true);
 
-    date = todo.childNodes[0].childNodes[1];
-    date.setAttribute("contenteditable", true);
+    //date = todo.childNodes[0].childNodes[1];
+    //date.setAttribute("contenteditable", true);
 }
 
 function finish_edit(todo, edit_button){
@@ -349,8 +349,8 @@ function finish_edit(todo, edit_button){
     title = todo.childNodes[0].childNodes[0];
     title.setAttribute("contenteditable", false);
 
-    date = todo.childNodes[0].childNodes[1];
-    date.setAttribute("contenteditable", false);
+    //date = todo.childNodes[0].childNodes[1];
+    //date.setAttribute("contenteditable", false);
 
     // change in firebase to
     var key = todo.getAttribute("data-key");
