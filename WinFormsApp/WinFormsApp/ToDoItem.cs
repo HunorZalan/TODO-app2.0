@@ -78,8 +78,8 @@ namespace WinFormsApp
                 Title = value
             };
 
-            FirebaseResponse response1 = await client.SetAsync("unfinished_ToDo/" + key, data);
-            FirebaseResponse response2 = await client.DeleteAsync("finished_ToDo/" + key);
+            SetResponse response1 = await client.SetAsync("finished_ToDo/" + key, data);
+            FirebaseResponse response2 = await client.DeleteAsync("unfinished_ToDo/" + key);
 
             this.pipe.Visible = !this.pipe.Visible;
             this.minus.Visible = !this.minus.Visible;
@@ -95,8 +95,8 @@ namespace WinFormsApp
                 Title = value
             };
 
-            FirebaseResponse response1 = await client.DeleteAsync("unfinished_ToDo/" + key);
-            FirebaseResponse response2 = await client.SetAsync("finished_ToDo/" + key, data);
+            FirebaseResponse response1 = await client.DeleteAsync("finished_ToDo/" + key);
+            SetResponse response2 = await client.SetAsync("unfinished_ToDo/" + key, data);
 
             this.pipe.Visible = !this.pipe.Visible;
             this.minus.Visible = !this.minus.Visible;

@@ -72,7 +72,7 @@ namespace WinFormsApp
             // pipe
             // 
             this.pipe.Image = ((System.Drawing.Image)(resources.GetObject("pipe.Image")));
-            this.pipe.Location = new System.Drawing.Point(218, 12);
+            this.pipe.Location = new System.Drawing.Point(223, 12);
             this.pipe.Name = "pipe";
             this.pipe.Size = new System.Drawing.Size(43, 39);
             this.pipe.TabIndex = 4;
@@ -100,7 +100,7 @@ namespace WinFormsApp
             // minus
             // 
             this.minus.Image = ((System.Drawing.Image)(resources.GetObject("minus.Image")));
-            this.minus.Location = new System.Drawing.Point(218, 12);
+            this.minus.Location = new System.Drawing.Point(223, 12);
             this.minus.Name = "minus";
             this.minus.Size = new System.Drawing.Size(43, 39);
             this.minus.TabIndex = 7;

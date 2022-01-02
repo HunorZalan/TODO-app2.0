@@ -16,6 +16,7 @@ namespace WinFormsApp
         {
             InitializeComponent();
             this.Text = "ToDo App";
+
         }
 
         IFirebaseConfig config = new FirebaseConfig()
@@ -30,13 +31,14 @@ namespace WinFormsApp
             try
             {
                 client = new FirebaseClient(config);
+
+                export();
             }
             catch
             {
                 MessageBox.Show("There was a problem in your internet.");
             }
 
-            export();
         }
 
         private async void export()
@@ -46,28 +48,36 @@ namespace WinFormsApp
             Dictionary<string, Data> allData =
                 JsonConvert.DeserializeObject<Dictionary<string, Data>>(response.Body.ToString());
 
+            string assigment = "";
+
             if (allData != null)
             {
                 foreach (var item in allData)
                 {
+                    var date = item.Value.Date;
                     ToDoItem newItem = new ToDoItem(item.Value.Title,
-                        item.Key, item.Value.Date.ToString(), true);
+                        item.Key, date.ToString(), true);
 
                     DateTime thisDay = DateTime.Now;
-                    var parsedDate = DateTime.Parse(item.Value.Date);
-                    TimeSpan duration = thisDay - parsedDate;
+                    var parsedDate = DateTime.Parse(date);
+                    //TimeSpan duration = thisDay - parsedDate;
 
-                    if (duration.TotalMinutes < 0)
+                    var year = parsedDate.Year;
+                    var mounth = parsedDate.Month;
+                    var day = parsedDate.Day;
+
+                    if (year == thisDay.Year && mounth == thisDay.Month && day == thisDay.Day)
                     {
                         this.panelToDo.Controls.Add(newItem);
+                        assigment += item.Value.Title;
+                        assigment += ", ";
                     }
                     else
                     {
                         this.panelExpired.Controls.Add(newItem);
                     }
-
-
                 }
+
             }
 
             response = await client.GetAsync("finished_ToDo/");
@@ -84,6 +94,13 @@ namespace WinFormsApp
                     this.panelFinished.Controls.Add(newItem);
                 }
             }
+
+            if (assigment != "")
+            {
+                assigment = assigment.Remove(assigment.Length - 2);
+                MessageBox.Show("Today's program: " + assigment);
+            }
+
         }
 
         public void addItem(string Text, string Key, string Date, double dur)
@@ -101,6 +118,7 @@ namespace WinFormsApp
 
             item.Top = pos;
             pos = item.Top + item.Height + 10;
+
         }
 
         private async void Add_Click(object sender, EventArgs e)
@@ -122,7 +140,6 @@ namespace WinFormsApp
                 var parsedDate = DateTime.Parse(data.Date);
                 TimeSpan duration = thisDay - parsedDate;
 
-
                 string date = this.dateTimePicker.Value.ToString();
                 addItem(this.textBox.Text, key, date, duration.TotalMinutes);
                 textBox.Text = "";
@@ -131,6 +148,7 @@ namespace WinFormsApp
             {
                 MessageBox.Show("Incorrect data!");
             }
+
         }
 
         private string get_unique_string(int string_length)
@@ -143,10 +161,19 @@ namespace WinFormsApp
                 rng.GetBytes(bytes);
                 return Convert.ToBase64String(bytes);
             }
+
+        }
+
+        private void refresh_Click(object sender, EventArgs e)
+        {
+            this.Controls.Clear();
+            this.InitializeComponent();
+            this.Text = "ToDo App";
+            Form1_Load(sender, e);
+
         }
 
         int pos = 10;
         IFirebaseClient client;
-
     }
 }

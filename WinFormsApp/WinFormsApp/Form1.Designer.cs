@@ -31,6 +31,7 @@ namespace WinFormsApp
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.refresh = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.add = new System.Windows.Forms.Button();
             this.textBox = new System.Windows.Forms.TextBox();
@@ -50,6 +51,7 @@ namespace WinFormsApp
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.refresh);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -57,12 +59,24 @@ namespace WinFormsApp
             this.panel1.Size = new System.Drawing.Size(434, 100);
             this.panel1.TabIndex = 0;
             // 
+            // refresh
+            // 
+            this.refresh.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.refresh.ForeColor = System.Drawing.Color.White;
+            this.refresh.Image = ((System.Drawing.Image)(resources.GetObject("refresh.Image")));
+            this.refresh.Location = new System.Drawing.Point(0, 0);
+            this.refresh.Name = "refresh";
+            this.refresh.Size = new System.Drawing.Size(60, 59);
+            this.refresh.TabIndex = 2;
+            this.refresh.UseVisualStyleBackColor = true;
+            this.refresh.Click += new System.EventHandler(this.refresh_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(122, 21);
+            this.label1.Location = new System.Drawing.Point(134, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(182, 50);
             this.label1.TabIndex = 0;
@@ -207,6 +221,7 @@ namespace WinFormsApp
         private System.Windows.Forms.Label finished;
         private System.Windows.Forms.FlowLayoutPanel panelExpired;
         private System.Windows.Forms.Label expired;
+        private System.Windows.Forms.Button refresh;
     }
 }
 

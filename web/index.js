@@ -64,11 +64,15 @@ var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0');
 var yyyy = today.getFullYear();
+var dd1 = String(today.getDate());
+var mm1 = String(today.getMonth() + 1);
+var hour = today.getHours();
+var minute = today.getMinutes();
 var today0 = yyyy + '-' + mm + '-' + dd;
-var hour = today.getHours()
-var minute = today.getMinutes()
+var today1 = mm1 + '/' + dd1 + '/' + yyyy;
 today = yyyy + '-' + mm + '-' + dd + ' ' + hour + ':' + minute;
 //console.log(today);
+
 function create_unfinished_ToDo(){
     unfinished_ToDo_container = document.getElementsByClassName("container")[0];
     expired_ToDo_container = document.getElementsByClassName("container")[2];
@@ -91,15 +95,19 @@ function create_unfinished_ToDo(){
             todo_key = todo_arrayf[i][1];
             todo_title = todo_arrayf[i][2];
 
-            mytodo_date = todo_date.substring(0, todo_date.length - 6);
+            var tDay = "";
+            if (todo_date[1] == '/' || todo_date[2] == '/'){
+                mytodo_date = todo_date.substring(0, todo_date.length - 11);
+            }
+            else{
+                mytodo_date = todo_date.substring(0, todo_date.length - 6);
+            }
 
-            if (mytodo_date == today0){
+            if (mytodo_date == today0 || mytodo_date == today1){
                 //console.log(todo_title);
                 assigment += todo_title;
                 assigment += ", ";
-            }
 
-            if (todo_date >= today){
                 todo_container = document.createElement('div');
                 todo_container.setAttribute("class", "data_container");
                 todo_container.setAttribute("data-key", todo_key);
