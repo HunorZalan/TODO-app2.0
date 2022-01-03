@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WinFormsApp
+﻿namespace WinFormsApp
 {
     internal class Data
     {
