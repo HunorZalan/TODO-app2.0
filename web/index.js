@@ -96,6 +96,7 @@ function create_unfinished_ToDo(){
             todo_title = todo_arrayf[i][2];
 
             if (todo_date[1] == '/' || todo_date[2] == '/'){
+                mytodo_date = todo_date.substring(0, todo_date.length - 11);
                 if (todo_date[1] == '/'){
                     m = todo_date.substring(0, 1);
                     if (todo_date[3] == '/'){

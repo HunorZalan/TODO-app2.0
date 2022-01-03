@@ -1,4 +1,6 @@
-﻿namespace WinFormsApp
+﻿using System;
+
+namespace WinFormsApp
 {
     internal class Data
     {
