@@ -66,11 +66,14 @@ namespace WinFormsApp
                     var mounth = parsedDate.Month;
                     var day = parsedDate.Day;
 
-                    if (year == thisDay.Year && mounth == thisDay.Month && day == thisDay.Day)
+                    if (year >= thisDay.Year && mounth >= thisDay.Month && day >= thisDay.Day)
                     {
+                        if (year == thisDay.Year && mounth == thisDay.Month && day == thisDay.Day)
+                        {
+                            assigment += item.Value.Title;
+                            assigment += ", ";
+                        }
                         this.panelToDo.Controls.Add(newItem);
-                        assigment += item.Value.Title;
-                        assigment += ", ";
                     }
                     else
                     {
@@ -156,7 +159,7 @@ namespace WinFormsApp
             using (var rng = new RNGCryptoServiceProvider())
             {
                 var bit_count = (string_length * 6);
-                var byte_count = ((bit_count + 7) / 8); // rounded up
+                var byte_count = ((bit_count + 7) / 8); //rounded up
                 var bytes = new byte[byte_count];
                 rng.GetBytes(bytes);
                 return Convert.ToBase64String(bytes);

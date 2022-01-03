@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WinFormsApp
+﻿namespace WinFormsApp
 {
     internal class Data
     {
@@ -8,4 +6,5 @@ namespace WinFormsApp
         public string Date { get; set; }
         public string Key { get; internal set; }
     }
+
 }

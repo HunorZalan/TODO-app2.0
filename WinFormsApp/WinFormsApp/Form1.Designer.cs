@@ -50,7 +50,7 @@ namespace WinFormsApp
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this.panel1.Controls.Add(this.refresh);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -113,7 +113,7 @@ namespace WinFormsApp
             // panelToDo
             // 
             this.panelToDo.AutoScroll = true;
-            this.panelToDo.BackColor = System.Drawing.Color.LightGray;
+            this.panelToDo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.panelToDo.Controls.Add(this.todo);
             this.panelToDo.Location = new System.Drawing.Point(12, 214);
             this.panelToDo.Name = "panelToDo";
@@ -135,7 +135,7 @@ namespace WinFormsApp
             // panelFinished
             // 
             this.panelFinished.AutoScroll = true;
-            this.panelFinished.BackColor = System.Drawing.Color.LightGray;
+            this.panelFinished.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.panelFinished.Controls.Add(this.finished);
             this.panelFinished.Location = new System.Drawing.Point(12, 478);
             this.panelFinished.Name = "panelFinished";
@@ -157,7 +157,7 @@ namespace WinFormsApp
             // panelExpired
             // 
             this.panelExpired.AutoScroll = true;
-            this.panelExpired.BackColor = System.Drawing.Color.LightGray;
+            this.panelExpired.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.panelExpired.Controls.Add(this.expired);
             this.panelExpired.Location = new System.Drawing.Point(12, 741);
             this.panelExpired.Name = "panelExpired";
@@ -181,7 +181,7 @@ namespace WinFormsApp
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.YellowGreen;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(219)))), ((int)(((byte)(53)))));
             this.ClientSize = new System.Drawing.Size(434, 1001);
             this.Controls.Add(this.panelExpired);
             this.Controls.Add(this.panelFinished);

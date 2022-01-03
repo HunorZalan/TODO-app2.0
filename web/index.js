@@ -95,19 +95,44 @@ function create_unfinished_ToDo(){
             todo_key = todo_arrayf[i][1];
             todo_title = todo_arrayf[i][2];
 
-            var tDay = "";
             if (todo_date[1] == '/' || todo_date[2] == '/'){
-                mytodo_date = todo_date.substring(0, todo_date.length - 11);
+                if (todo_date[1] == '/'){
+                    m = todo_date.substring(0, 1);
+                    if (todo_date[3] == '/'){
+                        d = todo_date.substring(2, 3);
+                        y = todo_date.substring(4, 9);
+                    }
+                    else{
+                        d = todo_date.substring(2, 4);
+                        y = todo_date.substring(5, 10);
+                    }
+                }
+                else{
+                    m = todo_date.substring(0, 2);
+                    if (todo_date[4] == '/'){
+                        d = todo_date.substring(3, 4);
+                        y = todo_date.substring(5, 10);
+                    }
+                    else{
+                        d = todo_date.substring(3, 5);
+                        y = todo_date.substring(6, 11);
+                    }
+                }
             }
             else{
                 mytodo_date = todo_date.substring(0, todo_date.length - 6);
+                y = todo_date.substring(0, 4);
+                m = todo_date.substring(5, 7);
+                d = todo_date.substring(8, 11);
             }
 
             if (mytodo_date == today0 || mytodo_date == today1){
                 //console.log(todo_title);
                 assigment += todo_title;
                 assigment += ", ";
-
+            }
+            
+            if (parseInt(y) >= yyyy && parseInt(m) >= mm && parseInt(d) >= dd){
                 todo_container = document.createElement('div');
                 todo_container.setAttribute("class", "data_container");
                 todo_container.setAttribute("data-key", todo_key);

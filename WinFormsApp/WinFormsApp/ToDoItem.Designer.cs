@@ -63,6 +63,7 @@ namespace WinFormsApp
             // 
             this.date.AutoSize = true;
             this.date.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.date.ForeColor = System.Drawing.Color.Gray;
             this.date.Location = new System.Drawing.Point(19, 34);
             this.date.Name = "date";
             this.date.Size = new System.Drawing.Size(35, 17);

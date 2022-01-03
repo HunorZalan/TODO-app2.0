@@ -31,6 +31,7 @@ namespace WinFormsApp
             if (!ok)
             {
                 this.pipe.Visible = false;
+                this.pencil.Visible = false;
             }
             else
             {
